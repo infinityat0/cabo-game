@@ -48,7 +48,7 @@ const GameBoard = ({ socket, gameState, myId, revealedCards }) => {
         if (newSelected.length === 2) {
           setTimeout(() => {
             socket.emit('finish_initial_peek', { roomId: gameState.roomId });
-          }, 3000); // Hide after 3 seconds and finish peek
+          }, 10000); // Hide after 10 seconds and finish peek
         }
       }
     } else if (isMatching) {

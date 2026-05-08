@@ -40,28 +40,28 @@ function App() {
       });
       setTimeout(() => {
         setRevealedCards(prev => prev.filter(rc => rc.playerId !== socket.id || !cards.some(c => c.index === rc.cardIndex)));
-      }, 3000);
+      }, 10000);
     });
 
     socket.on('peek_result', ({ cardIndex, card }) => {
       setRevealedCards(prev => [...prev, { playerId: socket.id, cardIndex, card }]);
       setTimeout(() => {
         setRevealedCards(prev => prev.filter(rc => !(rc.playerId === socket.id && rc.cardIndex === cardIndex)));
-      }, 3000);
+      }, 10000);
     });
 
     socket.on('spy_result', ({ targetPlayerId, cardIndex, card }) => {
       setRevealedCards(prev => [...prev, { playerId: targetPlayerId, cardIndex, card }]);
       setTimeout(() => {
         setRevealedCards(prev => prev.filter(rc => !(rc.playerId === targetPlayerId && rc.cardIndex === cardIndex)));
-      }, 3000);
+      }, 10000);
     });
 
     socket.on('match_failed', ({ playerId, cardIndex, card }) => {
       setRevealedCards(prev => [...prev, { playerId, cardIndex, card }]);
       setTimeout(() => {
         setRevealedCards(prev => prev.filter(rc => !(rc.playerId === playerId && rc.cardIndex === cardIndex)));
-      }, 3000);
+      }, 10000);
     });
 
     return () => {
