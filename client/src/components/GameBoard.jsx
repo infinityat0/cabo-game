@@ -140,7 +140,12 @@ const GameBoard = ({ socket, gameState, myId, revealedCards }) => {
           )}
         </div>
       )}
-      {message && <div className="badge" style={{marginTop: '1rem'}}>{message}</div>}
+      <div style={{display: 'flex', gap: '1rem', marginTop: '1rem'}}>
+        {message && <div className="badge">{message}</div>}
+        {isMyTurn && gameState.state === 'PLAYING' && (
+          <div className="badge" style={{background: 'var(--color-gold)', color: 'var(--color-navy)', boxShadow: '0 0 15px var(--color-gold)'}}>Your Turn</div>
+        )}
+      </div>
     </div>
   );
 
@@ -189,7 +194,7 @@ const GameBoard = ({ socket, gameState, myId, revealedCards }) => {
   };
 
   return (
-    <div className="game-layout">
+    <div className={`game-layout ${isMyTurn ? 'my-turn-active' : ''}`}>
       <div className="status-bar">
         <div>
           <span style={{color: 'var(--color-gold-light)', fontSize: '12px', fontWeight: 'bold', letterSpacing: '0.1em'}}>ROOM CODE</span>
@@ -265,7 +270,7 @@ const GameBoard = ({ socket, gameState, myId, revealedCards }) => {
       <div className="live-feed">
         <div className="live-feed-title">Live Feed</div>
         <div style={{display: 'flex', flexDirection: 'column', gap: '0.25rem', overflowY: 'auto', maxHeight: '120px'}}>
-          {gameState.logs?.map((log, i) => (
+          {[...(gameState.logs || [])].reverse().map((log, i) => (
             <div key={i} className="feed-item"><span className="feed-system">&gt;</span> {log}</div>
           ))}
           {(!gameState.logs || gameState.logs.length === 0) && (
