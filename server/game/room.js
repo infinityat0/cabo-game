@@ -43,7 +43,8 @@ class Room {
   startGame() {
     if (this.players.length < 2) return false;
     this.state = 'INITIAL_PEEK';
-    this.deck = createDeck();
+    const numDecks = this.players.length > 4 ? 2 : 1;
+    this.deck = createDeck(numDecks);
     this.discardPile = [];
     
     // Deal 4 cards to each player

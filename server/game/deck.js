@@ -9,16 +9,18 @@ function getCardValue(rank) {
   return parseInt(rank);
 }
 
-function createDeck() {
+function createDeck(numDecks = 1) {
   let deck = [];
-  for (const suit of suits) {
-    for (const rank of ranks) {
-      deck.push({
-        id: `${rank}-${suit}`,
-        suit,
-        rank,
-        value: getCardValue(rank)
-      });
+  for (let d = 1; d <= numDecks; d++) {
+    for (const suit of suits) {
+      for (const rank of ranks) {
+        deck.push({
+          id: `${d}-${rank}-${suit}`,
+          suit,
+          rank,
+          value: getCardValue(rank)
+        });
+      }
     }
   }
   return shuffle(deck);
