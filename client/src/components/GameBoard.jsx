@@ -174,8 +174,8 @@ const GameBoard = ({ socket, gameState, myId, revealedCards }) => {
     <div className="game-layout">
       <div className="status-bar">
         <div>
-          <span style={{color: 'var(--color-gold-light)', fontSize: '12px', fontWeight: 'bold', letterSpacing: '0.1em'}}>TOTAL STAKES</span>
-          <div style={{fontSize: '2rem', fontFamily: 'var(--font-serif)', color: 'var(--color-gold)', lineHeight: 1}}>$4,250</div>
+          <span style={{color: 'var(--color-gold-light)', fontSize: '12px', fontWeight: 'bold', letterSpacing: '0.1em'}}>ROOM CODE</span>
+          <div style={{fontSize: '2rem', fontFamily: 'var(--font-serif)', color: 'var(--color-gold)', lineHeight: 1}}>{gameState.roomId}</div>
         </div>
         <div style={{display: 'flex', gap: '1rem', alignItems: 'center'}}>
           <span style={{color: 'var(--on-surface-variant)', fontSize: '14px', fontWeight: 'bold'}}>{gameState.state.replace('_', ' ')}</span>

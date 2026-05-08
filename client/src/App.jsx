@@ -11,8 +11,13 @@ function App() {
   const [joinRoomId, setJoinRoomId] = useState('');
   const [myId, setMyId] = useState('');
   const [revealedCards, setRevealedCards] = useState([]);
+  const [copied, setCopied] = useState(false);
+
+  const urlRoom = new URLSearchParams(window.location.search).get('room');
 
   useEffect(() => {
+    if (urlRoom) setJoinRoomId(urlRoom);
+    
     socket.on('connect', () => {
       setMyId(socket.id);
     });
@@ -107,8 +112,20 @@ function App() {
               {gameState.players.length >= 2 && (
                 <button className="btn btn-primary" onClick={handleStartGame} style={{marginBottom: '1rem', width: '100%'}}>Start Game</button>
               )}
+              <div style={{marginTop: '1rem', marginBottom: '1.5rem', background: 'var(--surface-container-lowest)', padding: '1rem', borderRadius: '4px', border: '1px solid var(--color-gold-dark)'}}>
+                <p style={{color: 'var(--on-surface-variant)', fontSize: '14px', marginBottom: '0.5rem'}}>Share this link with others to join:</p>
+                <div style={{display: 'flex', gap: '0.5rem'}}>
+                  <input type="text" readOnly value={`${window.location.origin}?room=${gameState.roomId}`} style={{flex: 1, padding: '0.5rem', background: 'var(--surface)', color: 'var(--on-surface)', border: '1px solid var(--outline-variant)', borderRadius: '4px'}} />
+                  <button className="btn btn-primary" onClick={() => {
+                    navigator.clipboard.writeText(`${window.location.origin}?room=${gameState.roomId}`);
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                  }}>
+                    {copied ? 'Copied!' : 'Copy'}
+                  </button>
+                </div>
+              </div>
               <button className="btn btn-danger" onClick={() => window.location.reload()} style={{width: '100%'}}>Leave Room</button>
-              <p style={{marginTop: '1rem', color: 'var(--on-surface-variant)'}}>Share Room ID: <strong>{gameState.roomId}</strong> to invite others.</p>
             </div>
           </div>
         </div>
@@ -136,11 +153,14 @@ function App() {
             />
           </div>
           
-          <button className="btn btn-primary" onClick={handleCreateRoom} style={{width: '100%'}}>
-            Create New Room
-          </button>
-          
-          <div className="divider">OR</div>
+          {!urlRoom && (
+            <>
+              <button className="btn btn-primary" onClick={handleCreateRoom} style={{width: '100%'}}>
+                Create New Room
+              </button>
+              <div className="divider">OR</div>
+            </>
+          )}
           
           <div className="input-group">
             <label>Room Code</label>
@@ -149,6 +169,8 @@ function App() {
               onChange={e => setJoinRoomId(e.target.value.toUpperCase())} 
               placeholder="e.g. A1B2C3" 
               maxLength={6}
+              readOnly={!!urlRoom}
+              style={urlRoom ? {opacity: 0.7} : {}}
             />
           </div>
           
