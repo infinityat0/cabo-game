@@ -15,6 +15,7 @@ class Room {
     this.lastRound = false;
     this.logs = [];
     this.queenData = null;
+    this.finishedInitialPeek = new Set();
   }
 
   addLog(message) {
@@ -43,6 +44,7 @@ class Room {
   startGame() {
     if (this.players.length < 2) return false;
     this.state = 'INITIAL_PEEK';
+    this.finishedInitialPeek = new Set();
     const numDecks = this.players.length > 4 ? 2 : 1;
     this.deck = createDeck(numDecks);
     this.discardPile = [];
@@ -63,6 +65,17 @@ class Room {
     this.turnIndex = 0;
     this.addLog("Game started. Initial peek phase.");
     return true;
+  }
+
+  setPlayerFinishedInitialPeek(playerId) {
+    if (this.state !== 'INITIAL_PEEK') return false;
+    this.finishedInitialPeek.add(playerId);
+    
+    if (this.finishedInitialPeek.size === this.players.length) {
+      this.finishInitialPeek();
+      return true; // All finished
+    }
+    return false; // Still waiting
   }
 
   finishInitialPeek() {

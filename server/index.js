@@ -52,11 +52,9 @@ io.on('connection', (socket) => {
   });
 
   socket.on('finish_initial_peek', ({ roomId }) => {
-    // In a real implementation we'd track who has finished peeking.
-    // For simplicity, anyone can signal ready after peeking.
     const room = rooms.get(roomId);
     if (room && room.state === 'INITIAL_PEEK') {
-      room.finishInitialPeek();
+      room.setPlayerFinishedInitialPeek(socket.id);
       io.to(roomId).emit('room_update', room.getPublicState());
     }
   });
