@@ -542,3 +542,139 @@ input:focus {
 .feed-system {
   color: var(--color-gold-light);
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  body {
+    overflow: auto; /* Allow scrolling on small screens if necessary */
+  }
+
+  .game-layout {
+    padding: 1rem;
+    gap: 1rem;
+    grid-template-rows: auto auto 1fr auto auto; /* Make room for stacked elements */
+  }
+  
+  .status-bar {
+    padding: 0.5rem;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.5rem;
+    align-items: center;
+    text-align: left;
+  }
+  
+  .status-bar > div > div {
+    font-size: 1.25rem !important;
+  }
+  
+  .status-bar span {
+    font-size: 10px !important;
+  }
+  
+  .status-bar .btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 10px;
+  }
+  
+  .opponents-area {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .opponent {
+    gap: 0.5rem;
+  }
+  
+  .avatar {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 1rem;
+    border-width: 1px;
+  }
+  
+  .playing-card,
+  .opponent-cards .playing-card, 
+  .player-cards .playing-card,
+  .pile-slot {
+    width: 60px !important;
+    height: 84px !important;
+  }
+
+  .opponent-cards .playing-card {
+    margin-left: -30px; /* Overlap opponents cards like player cards */
+  }
+
+  .opponent-cards .playing-card:first-child {
+    margin-left: 0;
+  }
+  
+  .player-cards {
+    height: 90px;
+  }
+
+  /* Card Text Scaling */
+  .card-rank {
+    font-size: 0.9rem !important;
+  }
+  
+  .card-suit-small {
+    font-size: 0.8rem !important;
+  }
+  
+  .card-corner {
+    top: 4px;
+    left: 4px;
+  }
+  
+  .card-corner-bottom {
+    bottom: 4px;
+    right: 4px;
+  }
+  
+  .card-center {
+    font-size: 1.5rem !important;
+  }
+  
+  .card-back::after {
+    font-size: 1.2rem !important;
+    width: 24px !important;
+    height: 24px !important;
+  }
+  
+  .center-area {
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .action-bar {
+    padding: 0.5rem 1rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .live-feed {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  
+  .drawn-card-overlay {
+    padding: 1.5rem;
+    width: 90%;
+    min-width: 0;
+  }
+  
+  .drawn-card-overlay .playing-card {
+    width: 80px !important;
+    height: 112px !important;
+  }
+}
