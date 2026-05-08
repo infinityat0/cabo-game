@@ -150,15 +150,33 @@ const GameBoard = ({ socket, gameState, myId, revealedCards }) => {
     if (gameState.state !== 'GAME_OVER') return null;
     const minScore = Math.min(...gameState.players.map(p => p.score));
     const winners = gameState.players.filter(p => p.score === minScore).map(p => p.name).join(', ');
+    const suitSymbols = { hearts: '♥', diamonds: '♦', clubs: '♣', spades: '♠' };
 
     return (
       <div className="drawn-card-overlay">
         <h2>Game Over</h2>
         <div style={{display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%'}}>
           {gameState.players.sort((a,b) => a.score - b.score).map(p => (
-            <div key={p.id} style={{display: 'flex', justifyContent: 'space-between', padding: '1rem', background: 'var(--surface-container-high)', borderRadius: '4px'}}>
-              <span>{p.name}</span>
-              <strong>{p.score} pts</strong>
+            <div key={p.id} style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem 1rem', background: 'var(--surface-container-high)', borderRadius: '4px'}}>
+              <span style={{flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: '0.5rem'}}>{p.name}</span>
+              <div style={{display: 'flex', gap: '8px', flexShrink: 0}}>
+                {p.cards.map((card, idx) => {
+                  const isRed = card.suit === 'hearts' || card.suit === 'diamonds';
+                  return (
+                    <div key={idx} style={{
+                      width: '28px', height: '40px', background: 'var(--color-ivory)', 
+                      color: isRed ? 'var(--color-crimson)' : 'var(--color-charcoal)',
+                      borderRadius: '3px', display: 'flex', flexDirection: 'column',
+                      alignItems: 'center', justifyContent: 'center', lineHeight: 1,
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.5)'
+                    }}>
+                      <span style={{fontSize: '14px', fontWeight: 'bold'}}>{card.rank}</span>
+                      <span style={{fontSize: '12px'}}>{suitSymbols[card.suit]}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              <strong style={{flex: 1, textAlign: 'right', whiteSpace: 'nowrap', paddingLeft: '0.5rem'}}>{p.score} pts</strong>
             </div>
           ))}
         </div>
