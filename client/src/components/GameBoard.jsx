@@ -96,7 +96,10 @@ const GameBoard = ({ socket, gameState, myId, revealedCards }) => {
       <div style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
         <div className="avatar" style={{width: '48px', height: '48px'}}>{me?.name?.substring(0,1).toUpperCase()}</div>
         <div className="opponent-info" style={{alignItems: 'flex-start'}}>
-          <span className="opponent-name">{me?.name} (You)</span>
+          <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
+            <span className="opponent-name">{me?.name} (You)</span>
+            {isMyTurn && gameState.state === 'PLAYING' && <div className="turn-indicator-dot"></div>}
+          </div>
           {gameState.caboCalledBy === myId && <span className="badge" style={{fontSize: '10px'}}>Called Cabo</span>}
         </div>
       </div>
